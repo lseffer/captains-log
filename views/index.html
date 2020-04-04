@@ -1,0 +1,13 @@
+<html>
+{{ template "head.html" . }}
+
+<body>
+    <h1>YOOY</h1>
+    <ul>
+        {{range .}}
+        <li>{{.ID}}, {{.Text}}</li>
+        {{end}}
+    </ul>
+</body>
+
+</html>

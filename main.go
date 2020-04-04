@@ -1,19 +1,17 @@
 package main
 
 import (
-	"net/http"
-
 	"captains-log/controllers"
-	"fmt"
-
-	"github.com/labstack/echo/v4"
+	"captains-log/db"
+	"log"
+	"net/http"
 )
 
 func main() {
-	fmt.Println(controllers.Dummy(1))
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	db.InitializeDatabase()
+	http.HandleFunc("/", controllers.IndexController)
+	log.Println("Server listening on port 5555")
+	log.Fatal(http.ListenAndServe(":5555", nil))
 }

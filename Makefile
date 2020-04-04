@@ -1,8 +1,13 @@
-.PHONY: build test
+.PHONY: run build test
 
 build:
-	mkdir -p bin
-	go build -o bin/
+	rm -rf dist
+	mkdir -p dist
+	cp -r views static sql dist/
+	go build -o dist/
+
+run: build
+	./dist/captains-log
 
 test:
 	go test -cover -v -race ./...

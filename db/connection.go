@@ -1,9 +1,9 @@
+//+build !testsuite
+
 package db
 
 import (
 	"database/sql"
-	"fmt"
-	"log"
 
 	"github.com/mattn/go-sqlite3"
 )
@@ -20,12 +20,4 @@ func getDatabaseConnection() *sql.DB {
 		panic(err.Error())
 	}
 	return connection
-}
-
-func prepareStatement(connection *sql.DB, query string) *sql.Stmt {
-	statement, err := connection.Prepare(query)
-	if err != nil {
-		log.Panic(fmt.Sprintf("Something went wrong creating statement %s", query))
-	}
-	return statement
 }

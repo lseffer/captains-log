@@ -1,3 +1,5 @@
+//+build !testsuite
+
 package main
 
 import (
@@ -14,7 +16,7 @@ func main() {
 	flag.Parse()
 
 	if *autoApplyRevisions {
-		db.ApplyRevisions()
+		db.Startup()
 	}
 
 	fs := http.FileServer(http.Dir("./static"))

@@ -11,12 +11,6 @@ type revision struct {
 	sql string
 }
 
-type byID []revision
-
-func (s byID) Less(i, j int) bool {
-	return s[i].id < s[j].id
-}
-
 func parseRevisions() []revision {
 	files, _ := ioutil.ReadDir("sql")
 	var result []revision

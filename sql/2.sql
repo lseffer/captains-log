@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS POSTS (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     created_at INTEGER,
-    modified_at INTEGER,
+    modified_at INTEGER
 )

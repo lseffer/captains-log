@@ -7,7 +7,7 @@ build:
 	go build -o dist/
 
 run: build
-	./dist/captains-log
+	./dist/captains-log -a
 
 test:
 	go test -cover -v -race ./...

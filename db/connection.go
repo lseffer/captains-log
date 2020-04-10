@@ -8,7 +8,7 @@ import (
 	"github.com/mattn/go-sqlite3"
 )
 
-func getDatabaseConnection() *sql.DB {
+func getDatabaseConnection() (*sql.DB, error) {
 	sql.Register("sqlite3_with_extensions",
 		&sqlite3.SQLiteDriver{
 			Extensions: []string{
@@ -16,8 +16,5 @@ func getDatabaseConnection() *sql.DB {
 			},
 		})
 	connection, err := sql.Open("sqlite3", "file:locked.sqlite?cache=shared&mode=rwc")
-	if err != nil {
-		panic(err.Error())
-	}
-	return connection
+	return connection, err
 }

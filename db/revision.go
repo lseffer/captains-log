@@ -17,16 +17,25 @@ type revision struct {
 	sql string
 }
 
-func parseRevisions(directory string) []revision {
-	files, _ := ioutil.ReadDir(directory)
+func parseRevisions(directory string) ([]revision, error) {
+	files, err := ioutil.ReadDir(directory)
+	if err != nil {
+		return nil, err
+	}
 	var result []revision
 	for _, file := range files {
 		fileName := file.Name()
-		id, _ := strconv.ParseUint(strings.Replace(fileName, ".sql", "", -1), 10, 16)
-		fileContents, _ := ioutil.ReadFile(filepath.Join(directory, fileName))
+		id, err := strconv.ParseUint(strings.Replace(fileName, ".sql", "", -1), 10, 16)
+		if err != nil {
+			return nil, err
+		}
+		fileContents, err := ioutil.ReadFile(filepath.Join(directory, fileName))
+		if err != nil {
+			return nil, err
+		}
 		result = append(result, revision{uint16(id), string(fileContents)})
 	}
-	return result
+	return result, nil
 }
 
 func applyRevisions(connection *sql.DB, currentRevision revision, revisions []revision) {

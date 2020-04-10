@@ -21,7 +21,10 @@ func TestParseRevisions(t *testing.T) {
 	os.Create(filepath.Join(testDir, "3.sql"))
 	os.Create(filepath.Join(testDir, "5.sql"))
 	// Check that the parser returns correct objects
-	results := parseRevisions(testDir)
+	results, err := parseRevisions(testDir)
+	if err != nil {
+		t.Fatal()
+	}
 	var expected = []revision{{1, ""}, {2, ""}, {3, ""}, {5, ""}}
 	assert.Equal(t, expected, results)
 }
@@ -33,10 +36,9 @@ func TestParseRevisionsInvalidFiles(t *testing.T) {
 	os.Mkdir(testDir, 0770)
 	os.Create(filepath.Join(testDir, "afafs.sql"))
 	os.Create(filepath.Join(testDir, "ufiheiu.sql"))
-	// Since we don't raise error we expect the parseUint to return the nil int 0
-	results := parseRevisions(testDir)
-	var expected = []revision{{0, ""}, {0, ""}}
-	assert.Equal(t, expected, results)
+	// We expect the parseUint to return an error
+	_, err := parseRevisions(testDir)
+	assert.Equal(t, err.Error(), `strconv.ParseUint: parsing "afafs": invalid syntax`)
 }
 
 func TestApplyRevisionsSuccess(t *testing.T) {

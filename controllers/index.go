@@ -6,8 +6,7 @@ import (
 	"net/http"
 )
 
-// IndexController ...
-// Renders the index.html
+// IndexController renders index.html
 func IndexController(w http.ResponseWriter, req *http.Request) {
 	t := template.Must(template.ParseGlob("views/*"))
 	dummyData := []models.Post{
